@@ -324,12 +324,13 @@
         <div class="row">
             <div class="contact-left">
                 <h2>Send queries here</h2>
-                <form>
-                <input type="text" class="form-control" placeholder="Name">
-                <input type="email" class="form-control" placeholder="email">
-                <textarea placeholder="message" rows="6"></textarea>
-                <button type="submit" class="submit-btn">Send Now</button>
+                <form id="dataForm">
+                    <input type="text" id="name" placeholder="Name"><br>
+                    <input type="email" id="email" placeholder="Email"><br>
+                    <textarea id="message" placeholder="Message"></textarea><br>
+                    <button type="submit" class="submit-btn">Submit</button>
                 </form>
+                
             </div>
         </div>
 
@@ -370,6 +371,40 @@
 
   <!-- custom js -->
   <script src="js/scriprt.js"></script>
+
+  <script>
+    // Bind event listener to the form
+    document.getElementById('dataForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Collect form data
+        var formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        };
+
+        // Convert data to JSON format
+        var jsonData = JSON.stringify(formData);
+
+        // Function to download data as JSON file
+        function downloadJSON(data, filename) {
+            var blob = new Blob([data], { type: 'application/json' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Save JSON data to file
+        downloadJSON(jsonData, 'data.json');
+    });
+</script>
+
 </body>
 </html>
 
